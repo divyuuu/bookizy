@@ -29,9 +29,9 @@ public class AuthService implements UserDetailsService {
     private final AuthenticationManager authenticationManager;
 
     public AuthService(UserRepository userRepository,
-                       PasswordEncoder passwordEncoder,
-                       JwtTokenProvider tokenProvider,
-                       @Lazy AuthenticationManager authenticationManager) {
+        PasswordEncoder passwordEncoder,
+        JwtTokenProvider tokenProvider,
+        @Lazy AuthenticationManager authenticationManager) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.tokenProvider = tokenProvider;
