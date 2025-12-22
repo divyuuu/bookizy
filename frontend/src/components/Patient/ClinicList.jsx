@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { clinicAPI } from '../../services/api'
-import { logout } from '../../utils/auth'
-
 function ClinicList() {
   const [clinics, setClinics] = useState([])
   const navigate = useNavigate()
@@ -20,17 +18,8 @@ function ClinicList() {
     }
   }
 
-  const handleLogout = () => {
-    logout()
-    navigate('/login')
-  }
-
   return (
     <div>
-      <div className="navbar">
-        <h1>Doctor Appointment System</h1>
-        <button className="btn btn-secondary" onClick={handleLogout}>Logout</button>
-      </div>
       <div className="container">
         <h2>Available Clinics</h2>
         <div className="clinic-grid">
