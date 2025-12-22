@@ -13,6 +13,12 @@ body {
   background-color: #f5f5f5;
 }
 
+.logo{
+  width: 4rem;
+  height: 4rem;
+  border-radius: 50%;
+}
+
 .container {
   max-width: 1200px;
   margin: 0 auto;
@@ -81,11 +87,8 @@ body {
   background-color: #6c757d;
   color: white;
   width: 10rem;
-}
-
-.btn-success {
-  background-color: #28a745;
-  color: white;
+  border-radius: 0.7rem;
+  border: 2px solid black;
 }
 
 .btn-danger {
@@ -222,6 +225,47 @@ body {
 
 .navbar h1 {
   font-size: 24px;
+  margin-left: 12px;
+  flex: 1;
+}
+
+/* Patient tabs (deprecated - now rendered in navbar) */
+.patient-tabs {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+.tab-button {
+  padding: 10px 16px;
+  border-radius: 6px;
+  border: 1px solid #ddd;
+  background: white;
+  cursor: pointer;
+}
+.tab-button.active {
+  background: #007bff;
+  color: white;
+  border-color: #007bff;
+}
+
+/* Tabs in the top navbar */
+.nav-tabs {
+  display: flex;
+  gap: 8px;
+  margin-left: 16px;
+}
+.nav-tab-button {
+  padding: 6px 10px;
+  border-radius: 6px;
+  background: rgba(255,255,255,0.12);
+  color: white;
+  border: 1px solid rgba(255,255,255,0.18);
+  cursor: pointer;
+}
+.nav-tab-button.active {
+  background: white;
+  color: #007bff;
+  border-color: white;
 }
 
 select {

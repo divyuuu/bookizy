@@ -5,6 +5,7 @@ import Signup from './components/Auth/Signup'
 import ClinicList from './components/Patient/ClinicList'
 import ClinicQueue from './components/Patient/ClinicQueue'
 import ReceptionistDashboard from './components/Receptionist/ReceptionistDashboard'
+import PatientDashboard from './components/Patient/PatientDashboard' 
 import { isAuthenticated, getRole } from './utils/auth'
 
 function ProtectedRoute({ children, allowedRoles }) {
@@ -29,8 +30,8 @@ function App() {
         <Route
           path="/"
           element={
-            <ProtectedRoute>
-              <ClinicList />
+            <ProtectedRoute allowedRoles={["PATIENT"]}>
+              <PatientDashboard />
             </ProtectedRoute>
           }
         />
