@@ -130,8 +130,8 @@ WHERE email = 'receptionist@clinic.com';
 Real-time updates via WebSocket on `/ws` endpoint.  
 Subscribes to `/topic/clinic/{clinicId}` for queue updates.
 
-## Project Structure
 ```
+## Project Structure
 bookizy/
 ├── backend/
 │   ├── src/main/java/com/appointment/
