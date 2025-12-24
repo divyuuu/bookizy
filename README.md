@@ -1,11 +1,13 @@
+```
 ### Bookizy - Doctor Appointment Booking System
+
 A real-time token-based appointment booking system for clinics with patient and receptionist interfaces.
 Tech Stack
 Backend: Java 17, Spring Boot 3.2.0, Spring Security, JWT, WebSocket, JPA/Hibernate
 Frontend: React 18, Vite, Axios, SockJS, StompJS
 Database: MySQL
 
--->Features
+Features
 
 Patient:
 ~Browse available clinics
@@ -75,7 +77,7 @@ Create Receptionist :
 UPDATE users 
 SET role = 'RECEPTIONIST', clinic_id = 1 
 WHERE email = 'receptionist@clinic.com';
-```
+
 
 ### Create Patient (Optional)
 
@@ -130,7 +132,7 @@ WHERE email = 'receptionist@clinic.com';
 Real-time updates via WebSocket on `/ws` endpoint.  
 Subscribes to `/topic/clinic/{clinicId}` for queue updates.
 
-```
+
 ## Project Structure
 bookizy/
 ├── backend/
@@ -215,3 +217,5 @@ Author
 Shashank
 Repository
 https://github.com/shashank0470/bookizy.git
+
+```
