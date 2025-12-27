@@ -52,7 +52,7 @@ function MyBookings() {
         <p>You have no active bookings.</p>
       ) : (
         bookings.map(({ clinic, token }) => (
-          <div key={token.id} className="clinic-card" style={{ marginBottom: '12px' }}>
+          <div key={token.id} className="card clinic-card" style={{ marginBottom: '12px' }}>
             <h3>{clinic.name}</h3>
             <p><strong>Doctor:</strong> {clinic.doctorName}</p>
             <p><strong>Token:</strong> {token.tokenNumber}</p>
@@ -60,8 +60,8 @@ function MyBookings() {
             {token.estimatedTimeMinutes !== undefined && (
               <p><strong>Est. wait:</strong> {token.estimatedTimeMinutes} min</p>
             )}
-            <div style={{ marginTop: 8 }}>
-              <button className="btn btn-danger" onClick={() => handleCancel(token.id)}>Cancel</button>
+            <div style={{ marginTop: 8, display: 'flex', justifyContent: 'flex-end' }}>
+              <button className="btn btn-danger">Cancel</button>
             </div>
           </div>
         ))

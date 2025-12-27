@@ -74,22 +74,26 @@ function ReceptionistDashboard() {
   }
 
   return (
-    <div>
-      <div className="navbar">
-        <h1>Receptionist Dashboard</h1>
-        <button className="btn btn-secondary" onClick={handleLogout}>Logout</button>
+    <div className="receptionist-page theme-receptionist">
+      <div className="container" style={{marginTop: 12}}>
+        <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
+          <h2>Receptionist Dashboard</h2>
+          <div style={{display: 'flex', gap: 8}}>
+            <button className="btn btn--secondary" onClick={handleLogout}>Logout</button>
+          </div>
+        </div>
       </div>
 
       <div className="container">
         <h2>{clinic?.name} - Queue Management</h2>
 
         <div style={{ marginBottom: '20px' }}>
-          <button className="btn btn-success" onClick={handleServeNext}>
+          <button className="btn btn--primary" onClick={handleServeNext}>
             Serve Next Patient
           </button>
         </div>
 
-        <div className="queue-section">
+        <div className="queue-section card">
           <h3>All Patients</h3>
           {queue.length === 0 ? (
             <p>No patients in queue</p>
@@ -104,6 +108,7 @@ function ReceptionistDashboard() {
                 </div>
                 <div style={{ marginTop: '10px' }}>
                   <select
+                    className="input"
                     value={token.status}
                     onChange={(e) => handleStatusChange(token.id, e.target.value)}
                   >

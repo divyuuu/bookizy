@@ -21,21 +21,23 @@ function ClinicList() {
   return (
     <div>
       <div className="container">
-        <h2>Available Clinics</h2>
+        <h1>Available Clinics</h1>
         <div className="clinic-grid">
           {clinics.map((clinic) => (
-            <div key={clinic.id} className="clinic-card">
+            <div key={clinic.id} className="card clinic-card">
               <h3>{clinic.name}</h3>
               <p><strong>Doctor:</strong> {clinic.doctorName}</p>
               <p><strong>Specialization:</strong> {clinic.specialization}</p>
               <p><strong>Timing:</strong> {clinic.timing}</p>
               <p><strong>Address:</strong> {clinic.address}</p>
-              <button
-                className="btn btn-primary"
-                onClick={() => navigate(`/clinic/${clinic.id}`)}
-              >
-                Book Token
-              </button>
+              <div style={{display: 'flex', justifyContent: 'flex-end', marginTop: 12}}>
+                <button
+                  className="btn btn--primary"
+                  onClick={() => navigate(`/clinic/${clinic.id}`)}
+                >
+                  Book Token
+                </button>
+              </div>
             </div>
           ))}
         </div>

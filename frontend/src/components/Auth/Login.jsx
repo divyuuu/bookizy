@@ -29,21 +29,23 @@ function Login() {
 
   return (
     <div className="auth-container">
-      <div className="auth-card">
+      <div className="card auth-card">
         <h2>Login</h2>
         <form onSubmit={handleSubmit}>
-          <div className="form-group">
+          <div className="form-field">
             <label>Email</label>
             <input
+              className="input"
               type="email"
               value={formData.email}
               onChange={(e) => setFormData({ ...formData, email: e.target.value })}
               required
             />
           </div>
-          <div className="form-group">
+          <div className="form-field">
             <label>Password</label>
             <input
+              className="input"
               type="password"
               value={formData.password}
               onChange={(e) => setFormData({ ...formData, password: e.target.value })}
@@ -51,9 +53,11 @@ function Login() {
             />
           </div>
           {error && <div className="error">{error}</div>}
-          <button type="submit" className="btn btn-primary">Login</button>
+          <div style={{display: 'flex', gap: 12, justifyContent: 'center', marginTop: 8}}>
+            <button type="submit" className="btn btn--primary">Login</button>
+          </div>
         </form>
-        <div className="text-center">
+        <div className="text-center" style={{marginTop: 12}}>
           <span className="link" onClick={() => navigate('/signup')}>
             Don't have an account? Sign up
           </span>

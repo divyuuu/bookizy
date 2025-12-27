@@ -80,15 +80,19 @@ function ClinicQueue() {
 
   return (
     <div>
-      <div className="navbar">
-        <h1>Clinic Queue</h1>
-        <button className="btn btn-secondary" onClick={() => navigate('/')}>Back</button>
+      <div className="container" style={{marginTop: 12}}>
+        <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
+          <h2>Clinic Queue</h2>
+          <div>
+            <button className="btn btn--secondary" onClick={() => navigate('/')}>Back</button>
+          </div>
+        </div>
       </div>
 
       <div className="container">
         <div className="queue-container">
           {/* Clinic Info */}
-          <div className="queue-section">
+          <div className="queue-section card">
             <h3>Clinic Information</h3>
             {clinic && (
               <>
@@ -103,7 +107,7 @@ function ClinicQueue() {
           </div>
 
           {/* Live Queue */}
-          <div className="queue-section">
+          <div className="queue-section card">
             <h3>Live Queue</h3>
             {queue.length === 0 ? (
               <p>No patients in queue</p>
@@ -131,7 +135,7 @@ function ClinicQueue() {
           </div>
 
           {/* Booking Section */}
-          <div className="queue-section">
+          <div className="queue-section card">
             <h3>Your Token</h3>
             {myToken ? (
               <div>
@@ -149,7 +153,7 @@ function ClinicQueue() {
                 </button>
               </div>
             ) : (
-              <button className="btn btn-success" onClick={() => setShowModal(true)}>
+              <button className="btn btn--primary" onClick={() => setShowModal(true)}>
                 Book Token
               </button>
             )}
@@ -160,36 +164,39 @@ function ClinicQueue() {
       {/* Booking Modal */}
       {showModal && (
         <div className="modal">
-          <div className="modal-content">
+          <div className="modal-content card">
             <h3>Book Token</h3>
             <form onSubmit={handleBookToken}>
-              <div className="form-group">
+              <div className="form-field">
                 <label>Patient Name</label>
                 <input
+                  className="input"
                   type="text"
                   value={formData.patientName}
                   onChange={(e) => setFormData({ ...formData, patientName: e.target.value })}
                   required
                 />
               </div>
-              <div className="form-group">
+              <div className="form-field">
                 <label>Patient Age</label>
                 <input
+                  className="input"
                   type="number"
                   value={formData.patientAge}
                   onChange={(e) => setFormData({ ...formData, patientAge: e.target.value })}
                   required
                 />
               </div>
-              <button type="submit" className="btn btn-primary">Submit</button>
-              <button
-                type="button"
-                className="btn btn-secondary"
-                onClick={() => setShowModal(false)}
-                style={{ marginLeft: '10px' }}
-              >
-                Cancel
-              </button>
+              <div style={{display: 'flex', gap: 10}}>
+                <button type="submit" className="btn btn--primary">Submit</button>
+                <button
+                  type="button"
+                  className="btn btn--secondary"
+                  onClick={() => setShowModal(false)}
+                >
+                  Cancel
+                </button>
+              </div>
             </form>
           </div>
         </div>
