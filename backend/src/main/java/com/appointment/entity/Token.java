@@ -2,7 +2,9 @@ package com.appointment.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 @Entity
 @Table(name = "tokens")
@@ -15,6 +17,10 @@ public class Token {
     private Integer tokenNumber;
     private String patientName;
     private Integer patientAge;
+    @JoinColumn(name = "date_booked")
+    private LocalDate appointmentDate;
+    @JoinColumn(name = "time_booked")
+    private LocalTime appointmentTime;
 
     @Enumerated(EnumType.STRING)
     private Status status;
