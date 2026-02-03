@@ -43,7 +43,11 @@ public class TokenService {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
-        Integer maxToken = tokenRepository.findMaxTokenNumberForToday(clinicId).orElse(0);
+        // Use pessimistic locking to prevent concurrent token number assignment
+        // This ensures only one transaction can read and increment the token number at a time
+        // Lock the token with maximum number for today to prevent race conditions
+        Token maxTokenEntity = tokenRepository.findMaxTokenForTodayWithLock(clinicId).orElse(null);
+        Integer maxToken = maxTokenEntity != null ? maxTokenEntity.getTokenNumber() : 0;
         Integer newTokenNumber = maxToken + 1;
 
         Token token = new Token();
