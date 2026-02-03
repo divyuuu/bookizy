@@ -11,8 +11,11 @@ function ClinicQueue() {
   const [queue, setQueue] = useState([])
   const [myToken, setMyToken] = useState(null)
   const [showModal, setShowModal] = useState(false)
-  const [formData, setFormData] = useState({ patientName: '', patientAge: '' })
-
+  const [formData, setFormData] = useState({ patientName: '', patientAge: '', appointmentDate: '', appointmentTime: '' })
+  const [timeMin, setTimeMin] = useState('')
+  const [timeMax, setTimeMax] = useState('')
+  const [timeStep, setTimeStep] = useState(900)
+  const today = new Date().toISOString().split('T')[0]
   useEffect(() => {
     loadClinic()
     loadQueue()
@@ -26,10 +29,51 @@ function ClinicQueue() {
     return () => disconnectWebSocket()
   }, [clinicId])
 
+  const to24Hour = (timeStr) => {
+    if (!timeStr) return ''
+    const t = timeStr.trim()
+    const ampmMatch = t.match(/(\d{1,2})(?::(\d{2}))?\s*(AM|PM)/i)
+    if (ampmMatch) {
+      let hour = parseInt(ampmMatch[1], 10)
+      const minute = ampmMatch[2] ? parseInt(ampmMatch[2], 10) : 0
+      const ampm = ampmMatch[3].toUpperCase()
+      if (ampm === 'AM') {
+        if (hour === 12) hour = 0
+      } else {
+        if (hour !== 12) hour += 12
+      }
+      return `${String(hour).padStart(2, '0')}:${String(minute).padStart(2, '0')}`
+    }
+
+    const hmMatch = t.match(/^(\d{1,2})(?::(\d{2}))?$/)
+    if (hmMatch) {
+      const hour = parseInt(hmMatch[1], 10)
+      const minute = hmMatch[2] ? hmMatch[2] : '00'
+      return `${String(hour).padStart(2, '0')}:${String(minute).padStart(2, '0')}`
+    }
+
+    return ''
+  }
+
   const loadClinic = async () => {
     try {
       const response = await clinicAPI.getById(clinicId)
       setClinic(response.data)
+
+      const timing = response.data?.timing
+      if (timing) {
+        const parts = timing.split('-').map((s) => s.trim())
+        if (parts.length >= 2) {
+          const start = to24Hour(parts[0])
+          const end = to24Hour(parts[1])
+          if (start && end) {
+            setTimeMin(start)
+            setTimeMax(end)
+          }
+        }
+      }
+
+      setTimeStep(response.data?.avgTimePerPatient ? response.data.avgTimePerPatient * 60 : 900)
     } catch (err) {
       console.error('Failed to load clinic', err)
     }
@@ -55,10 +99,21 @@ function ClinicQueue() {
 
   const handleBookToken = async (e) => {
     e.preventDefault()
+
+    // Client-side validation: ensure chosen time is within clinic timing
+    console.log('Validating time:', formData.appointmentTime, timeMin, timeMax)
+    if (timeMin && timeMax) {
+      const t = formData.appointmentTime
+      if (!t || t < timeMin || t > timeMax) {
+        alert(`Please choose a time between ${timeMin} and ${timeMax}`)
+        return
+      }
+    }
+
     try {
       await tokenAPI.book(clinicId, formData)
       setShowModal(false)
-      setFormData({ patientName: '', patientAge: '' })
+      setFormData({ patientName: '', patientAge: '', appointmentDate: '', appointmentTime: '' })
       loadQueue()
       loadMyToken()
     } catch (err) {
@@ -80,15 +135,19 @@ function ClinicQueue() {
 
   return (
     <div>
-      <div className="navbar">
-        <h1>Clinic Queue</h1>
-        <button className="btn btn-secondary" onClick={() => navigate('/')}>Back</button>
+      <div className="container" style={{marginTop: 12}}>
+        <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
+          <h2>Clinic Queue</h2>
+          <div>
+            <button className="btn btn--secondary" onClick={() => navigate('/')}>Back</button>
+          </div>
+        </div>
       </div>
 
       <div className="container">
         <div className="queue-container">
           {/* Clinic Info */}
-          <div className="queue-section">
+          <div className="queue-section card">
             <h3>Clinic Information</h3>
             {clinic && (
               <>
@@ -103,7 +162,7 @@ function ClinicQueue() {
           </div>
 
           {/* Live Queue */}
-          <div className="queue-section">
+          <div className="queue-section card">
             <h3>Live Queue</h3>
             {queue.length === 0 ? (
               <p>No patients in queue</p>
@@ -131,7 +190,7 @@ function ClinicQueue() {
           </div>
 
           {/* Booking Section */}
-          <div className="queue-section">
+          <div className="queue-section card">
             <h3>Your Token</h3>
             {myToken ? (
               <div>
@@ -149,7 +208,13 @@ function ClinicQueue() {
                 </button>
               </div>
             ) : (
-              <button className="btn btn-success" onClick={() => setShowModal(true)}>
+              <button
+                className="btn btn--primary"
+                onClick={() => {
+                  setFormData({ ...formData, appointmentDate: today, appointmentTime: timeMin || '' })
+                  setShowModal(true)
+                }}
+              >
                 Book Token
               </button>
             )}
@@ -160,36 +225,68 @@ function ClinicQueue() {
       {/* Booking Modal */}
       {showModal && (
         <div className="modal">
-          <div className="modal-content">
+          <div className="modal-content card">
             <h3>Book Token</h3>
             <form onSubmit={handleBookToken}>
-              <div className="form-group">
+              <div className="form-field">
                 <label>Patient Name</label>
                 <input
+                  className="input"
                   type="text"
                   value={formData.patientName}
                   onChange={(e) => setFormData({ ...formData, patientName: e.target.value })}
                   required
                 />
               </div>
-              <div className="form-group">
+              <div className="form-field">
                 <label>Patient Age</label>
                 <input
+                  className="input"
                   type="number"
                   value={formData.patientAge}
                   onChange={(e) => setFormData({ ...formData, patientAge: e.target.value })}
                   required
                 />
               </div>
-              <button type="submit" className="btn btn-primary">Submit</button>
-              <button
-                type="button"
-                className="btn btn-secondary"
-                onClick={() => setShowModal(false)}
-                style={{ marginLeft: '10px' }}
-              >
-                Cancel
-              </button>
+
+              <div className="form-field">
+                <label>Appointment Date</label>
+                <input
+                  className="input"
+                  type="date"
+                  min={today}
+                  value={formData.appointmentDate}
+                  onChange={(e) => setFormData({ ...formData, appointmentDate: e.target.value })}
+                  required
+                />
+              </div>
+
+              <div className="form-field">
+                <label>Appointment Time</label>
+                <input
+                  className="input"
+                  type="time"
+                  min={timeMin}
+                  max={timeMax}
+                  step={timeStep}
+                  value={formData.appointmentTime}
+                  onChange={(e) => setFormData({ ...formData, appointmentTime: e.target.value })}
+                  required
+                />
+                {timeMin && timeMax && (
+                  <small style={{display: 'block', marginTop: 6}}>Allowed: {timeMin} - {timeMax}</small>
+                )}
+              </div>
+              <div style={{display: 'flex', gap: 10}}>
+                <button type="submit" className="btn btn--primary">Submit</button>
+                <button
+                  type="button"
+                  className="btn btn--secondary"
+                  onClick={() => setShowModal(false)}
+                >
+                  Cancel
+                </button>
+              </div>
             </form>
           </div>
         </div>

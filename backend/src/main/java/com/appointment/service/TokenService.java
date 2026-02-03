@@ -12,7 +12,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -28,6 +30,7 @@ public class TokenService {
 
     @Transactional
     public TokenResponse bookToken(Long clinicId, Long userId, TokenBookingRequest request) {
+        System.out.println("Debug Hit");
         List<Token.Status> activeStatuses = Arrays.asList(
                 Token.Status.WAITING, Token.Status.ARRIVED, Token.Status.SERVING
         );
@@ -49,7 +52,8 @@ public class TokenService {
         Token maxTokenEntity = tokenRepository.findMaxTokenForTodayWithLock(clinicId).orElse(null);
         Integer maxToken = maxTokenEntity != null ? maxTokenEntity.getTokenNumber() : 0;
         Integer newTokenNumber = maxToken + 1;
-
+        LocalDate date = request.getAppointmentDate();
+        LocalTime time = request.getAppointmentTime();
         Token token = new Token();
         token.setTokenNumber(newTokenNumber);
         token.setPatientName(request.getPatientName());
@@ -58,6 +62,8 @@ public class TokenService {
         token.setClinic(clinic);
         token.setUser(user);
         token.setCreatedAt(LocalDateTime.now());
+        token.setAppointmentDate(request.getAppointmentDate());
+        token.setAppointmentTime(request.getAppointmentTime());
 
         tokenRepository.save(token);
 

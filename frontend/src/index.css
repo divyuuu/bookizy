@@ -1,3 +1,12 @@
+:root{
+  --accent: #4f46e5; /* matches navbar */
+  --muted: #6b7280;
+  --bg: #f7f8fb;
+  --card-bg: #ffffff;
+  --radius: 10px;
+  --shadow: 0 8px 24px rgba(16,24,40,0.06);
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -5,93 +14,161 @@
 }
 
 body {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
-    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
-    sans-serif;
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: #f5f5f5;
+  background: linear-gradient(180deg, var(--bg), #ffffff);
+  color: #0f172a;
+  line-height: 1.45;
+}
+
+.logo{
+  width: 4rem;
+  height: 4rem;
+  border-radius: 10px;
+  object-fit: cover;
+  box-shadow: 0 6px 18px rgba(16,24,40,0.06);
 }
 
 .container {
-  max-width: 1200px;
+  max-width: 1100px;
   margin: 0 auto;
-  padding: 20px;
+  padding: 24px;
 }
+
+h2 {
+  font-size: 1.125rem;
+  margin: 8px 0 16px 0;
+  color: #0f172a;
+}
+
+h3 {
+  font-size: 1rem;
+  margin: 6px 0 12px 0;
+  color: #0f172a;
+  font-weight: 600;
+}
+
+/* Receptionist light-blue theme */
+.theme-receptionist{
+  --accent: #0ea5e9; /* sky-500 */
+  --muted: #2563eb;
+  --card-bg: linear-gradient(180deg,#f8fbff,#ffffff);
+  --radius: 12px;
+}
+
+.theme-receptionist .queue-section {
+  border: 1px solid rgba(14,165,233,0.08);
+}
+
+.theme-receptionist h2 { color: #0369a1; }
+
+.theme-receptionist .btn--primary{ box-shadow: 0 10px 30px rgba(14,165,233,0.12); }
+
+.theme-receptionist .token-item.own{ border-left-color: #0369a1; }
+
+
 
 .auth-container {
   display: flex;
   justify-content: center;
   align-items: center;
   min-height: 100vh;
+  padding: 24px;
 }
 
-.auth-card {
-  background: white;
-  padding: 40px;
-  border-radius: 8px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+/* Generic card used across the app */
+.card {
+  background: var(--card-bg);
+  padding: 28px;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
   width: 100%;
-  max-width: 400px;
+  max-width: 520px;
 }
 
-.auth-card h2 {
-  margin-bottom: 24px;
-  text-align: center;
+/* Backwards compatibility */
+.auth-card{
+  background: var(--card-bg);
+  padding: 28px;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  width: 100%;
+  max-width: 520px;
 }
 
-.form-group {
+.card h2, .auth-card h2 {
+  margin-bottom: 20px;
+  text-align: left;
+  font-size: 1.125rem;
+  color: #0f172a;
+}
+
+
+.form-field {
   margin-bottom: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 
-.form-group label {
-  display: block;
-  margin-bottom: 8px;
-  font-weight: 500;
+.form-field label {
+  font-weight: 600;
+  color: var(--muted);
+  font-size: 0.95rem;
 }
 
-.form-group input {
+.input {
   width: 100%;
-  padding: 10px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
+  padding: 10px 12px;
+  border: 1px solid #eef0f6;
+  border-radius: 10px;
   font-size: 14px;
+  background: white;
+  transition: box-shadow .12s ease, border-color .12s ease;
+}
+
+.input:focus {
+  outline: none;
+  box-shadow: 0 4px 14px rgba(79,70,229,0.08);
+  border-color: var(--accent);
 }
 
 .btn {
-  width: 100%;
-  padding: 12px;
+  padding: 10px 14px;
+  border-radius: 10px;
   border: none;
-  border-radius: 4px;
-  font-size: 16px;
   cursor: pointer;
-  transition: background-color 0.3s;
+  font-weight: 700;
+  min-width: 96px;
+  transition: transform .12s ease, box-shadow .12s ease;
 }
 
-.btn-primary {
-  background-color: #007bff;
+.btn--primary, .btn-primary {
+  background: var(--accent);
   color: white;
+  box-shadow: 0 8px 24px rgba(79,70,229,0.12);
 }
 
-.btn-primary:hover {
-  background-color: #0056b3;
+.btn--primary:hover, .btn-primary:hover {
+  transform: translateY(-2px);
 }
 
-.btn-secondary {
-  background-color: #6c757d;
-  color: white;
-  width: 10rem;
-}
-
-.btn-success {
-  background-color: #28a745;
-  color: white;
+.btn--secondary, .btn-secondary {
+  background: transparent;
+  color: var(--muted);
+  border: 1px solid rgba(15,23,42,0.06);
 }
 
 .btn-danger {
   background-color: #dc3545;
   color: white;
+  margin-top: 1rem;
 }
+
+.btn--danger { display: inline-flex; align-items:center; justify-content:center; background: #dc3545; color: white; border-radius: 10px; padding: 10px 14px; }
+
+.btn--success { display: inline-flex; align-items:center; justify-content:center; background: #10b981; color: white; border-radius: 10px; padding: 10px 14px; }
 
 .text-center {
   text-align: center;
@@ -124,11 +201,74 @@ body {
 
 .clinic-card h3 {
   margin-bottom: 12px;
+  background-color: #5d59ad;
+  color: white;
+  padding-left: 8px;
 }
 
 .clinic-card p {
   margin-bottom: 8px;
   color: #666;
+}
+
+/* Profile specific styles */
+.profile-card {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.profile-avatar img {
+  width: 96px;
+  height: 96px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid #f0f0f0;
+}
+
+.avatar-placeholder {
+  width: 96px;
+  height: 96px;
+  border-radius: 50%;
+  background: #e9ecef;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 36px;
+  color: #6c757d;
+  border: 3px solid #f0f0f0;
+}
+
+.profile-info p {
+  margin: 6px 0;
+}
+
+.edit-actions {
+  margin-left: auto;
+}
+
+.edit-photo-preview {
+  margin-top: 8px;
+  width: 72px;
+  height: 72px;
+  border-radius: 8px;
+  object-fit: cover;
+  border: 1px solid #ddd;
+}
+
+.profile-edit-modal .modal-content {
+  min-width: 420px;
+}
+
+@media (max-width: 600px) {
+  .profile-card {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .edit-actions {
+    margin-left: 0;
+  }
 }
 
 .queue-container {
@@ -139,39 +279,38 @@ body {
 }
 
 .queue-section {
-  background: white;
+  background: var(--card-bg);
   padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
 }
 
 .queue-section h3 {
   margin-bottom: 16px;
-  border-bottom: 2px solid #007bff;
   padding-bottom: 8px;
+  color: var(--muted);
 }
 
 .token-item {
-  padding: 12px;
-  margin-bottom: 10px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  background: #f9f9f9;
+  padding: 12px 14px;
+  margin-bottom: 12px;
+  border-radius: 10px;
+  background: linear-gradient(180deg, #ffffff, #fbfbfe);
+  border-left: 4px solid transparent;
+  box-shadow: 0 4px 14px rgba(16,24,40,0.04);
 }
 
 .token-item.serving {
-  background: #d4edda;
-  border-color: #28a745;
+  border-left-color: #10b981; /* green */
 }
 
 .token-item.arrived {
-  background: #fff3cd;
-  border-color: #ffc107;
+  border-left-color: #f59e0b; /* amber */
 }
 
 .token-item.own {
-  background: #cce5ff;
-  border-color: #007bff;
+  border-left-color: var(--accent);
+  background: linear-gradient(180deg, #ecf0ff, #ffffff);
 }
 
 .modal {
@@ -187,14 +326,18 @@ body {
 }
 
 .modal-content {
-  background: white;
-  padding: 30px;
-  border-radius: 8px;
-  min-width: 400px;
+  background: var(--card-bg);
+  padding: 28px;
+  border-radius: var(--radius);
+  min-width: 360px;
+  display: flex;
+  flex-direction: column;
 }
 
 .modal-content h3 {
-  margin-bottom: 20px;
+  margin-bottom: 14px;
+  margin-left: 0;
+  color: #0f172a;
 }
 
 .error {
@@ -222,6 +365,47 @@ body {
 
 .navbar h1 {
   font-size: 24px;
+  margin-left: 12px;
+  flex: 1;
+}
+
+/* Patient tabs (deprecated - now rendered in navbar) */
+.patient-tabs {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+.tab-button {
+  padding: 10px 16px;
+  border-radius: 6px;
+  border: 1px solid #ddd;
+  background: white;
+  cursor: pointer;
+}
+.tab-button.active {
+  background: #007bff;
+  color: white;
+  border-color: #007bff;
+}
+
+/* Tabs in the top navbar */
+.nav-tabs {
+  display: flex;
+  gap: 8px;
+  margin-left: 16px;
+}
+.nav-tab-button {
+  padding: 6px 10px;
+  border-radius: 6px;
+  background: rgba(255,255,255,0.12);
+  color: white;
+  border: 1px solid rgba(255,255,255,0.18);
+  cursor: pointer;
+}
+.nav-tab-button.active {
+  background: white;
+  color: #007bff;
+  border-color: white;
 }
 
 select {
